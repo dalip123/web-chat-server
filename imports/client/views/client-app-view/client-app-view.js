@@ -225,6 +225,7 @@ Template.chatView.events({
         const tmpl = Template.instance();
         const data = Template.currentData();
         const msg = $(e.currentTarget).val();
+        console.log("messages:",msg);
         const clientAppId = FlowRouter.getParam('clientAppId');
         const userSessionId = data.userSessionId;
         const key = e.keyCode || e.which;

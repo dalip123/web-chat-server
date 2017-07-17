@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import {Chat, Client, Banned} from '../both/collections/collections.js';
-
+import {ApiAiClient} from "meteor/hitchlab:voiceai";
+import { HTTP } from 'meteor/http';
+import { EJSON } from 'meteor/ejson';
 
 // check if client app with this particular clientAppId exists in the database
 const clientExists = function (clientAppId) {
@@ -57,7 +59,7 @@ Meteor.methods({
         if (isBanned(clientAppId, this.connection.clientAddress)) {
             throw new Meteor.Error(403, 'Error 403: Your IP has been banned!');
         }
-
+  console.log("message",msg);
         Chat.insert({
             msg: msg,
             clientAppId: clientAppId,
@@ -66,6 +68,28 @@ Meteor.methods({
             isFromClient: isFromClient,
             clientIp: this.connection.clientAddress
         });
+        if(isFromClient)
+        {
+          HTTP.call(
+            'POST',
+            'https://api.api.ai/v1/query?v=20150910',
+            {
+              contentType: "application/json; charset=utf-8",
+              headers: {
+   					"Authorization": "Bearer 15e10464ecc946adb822d376bef1bef9"
+   				},
+           data: { query: msg, lang: "en", sessionId: "e8d12e39-d338-443d-afac-0c1651009c42" },
+            },
+            function(error,response){
+              var result= EJSON.parse(response.content);
+           console.log("return ",result.result.fulfillment.speech);
+              Meteor.call('addChatMessage',result.result.fulfillment.speech, clientAppId, userSessionId);
+           if(error)
+           {
+             console.log("error ",error);
+           }
+            });
+        }
 
         this.unblock();
 

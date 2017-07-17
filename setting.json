@@ -1,0 +1,22 @@
+{
+    "public": {
+        "hostName": "localhost:3000",
+        "maxClientApps": 3,
+        "maxChatHistoryInDays": 3,
+        "ga": {
+            "account": "UA-********-*"
+        }
+    },
+    "private": {
+        "mainAppEmail": "dalipkumar703@gmail.com",
+        "mailGun": "smtp://{Default SMTP Login}:{Default Password}@{SMTP Hostname}:587",
+        "google": {
+            "clientId": "{your google API client id here}",
+            "secret": "{your google API secret key here}"
+        },
+        "facebook": {
+            "appId": "176638286121106",
+            "secret": "e3a97f08a306b0766e1897e3e4257177"
+        }
+    }
+}
