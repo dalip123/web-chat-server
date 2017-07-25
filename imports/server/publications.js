@@ -57,7 +57,9 @@ Meteor.publish('Meteor.users.emailNotifications', function () {
     }
     return this.ready();
 });
+Meteor.publish('Status.check',function(){
 
+})
 Meteor.publish('Meteor.users.adminStatus', function (clientAppId) {
     check(clientAppId, String);
     const client = Client.findOne(clientAppId);
