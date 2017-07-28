@@ -46,6 +46,7 @@ Meteor.methods({
     // add new message - available also for client apps
 
     addChatMessage(msg, clientAppId, userSessionId, isFromClient) {
+     console.log("add chat message");
         check(msg, String);
         check(clientAppId, String);
         check(userSessionId, String);
